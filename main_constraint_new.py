@@ -98,8 +98,11 @@ optimizer_model = torch.optim.SGD(model.parameters(),lr= 0.025,momentum = 0.9, w
 optimizer_arch = torch.optim.Adam(model.arch_parameters(),lr = 3e-4, betas=(0.5, 0.999), weight_decay = 1e-3)
 w_sche = utils.CosineDecayLR(optimizer_model, **lr_scheduler)
 train_transform, valid_transform = utils._data_transforms_cifar10(args)
-train_data = dset.CIFAR10(root='/home/xiaoda/data', train=True, download=False, transform=train_transform)
-valid_data = dset.CIFAR10(root='/home/xiaoda/data', train=False, download=False, transform=train_transform)
+
+data_dir = os.getcwd() + '/data'
+
+train_data = dset.CIFAR10(root=data_dir, train=True, download=True, transform=train_transform)
+valid_data = dset.CIFAR10(root=data_dir, train=False, download=True, transform=train_transform)
 writer = SummaryWriter(args.tensorboard_log)
 if not os.path.exists(args.search_results_dir):
     os.mkdir(args.search_results_dir)
